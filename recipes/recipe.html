@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe — Catacrypt</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <style>
+      /* ── Back link ─────────────────────────────────────────── */
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        transition: color 0.2s;
+      }
+      .back-link:hover { color: var(--teal-mid); }
+
+      /* ── Recipe header ─────────────────────────────────────── */
+      .recipe-header { margin-bottom: 2rem; }
+
+      .recipe-header h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        color: var(--teal-bright);
+        text-shadow: 0 0 28px rgba(0,229,212,0.18);
+        margin-bottom: 1rem;
+      }
+
+      .recipe-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+      }
+
+      .recipe-meta-row .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .meta-label {
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      /* ── Portion selector ──────────────────────────────────── */
+      .portion-section {
+        margin: 2rem 0;
+        padding: 1.25rem 1.5rem;
+        background: var(--bg-card);
+        border: 1px solid var(--teal-border);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .portion-label {
+        font-family: 'Cinzel', serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+
+      .portion-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .portion-btn {
+        min-width: 2.8rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 8px;
+        border: 1px solid var(--teal-border);
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: 'Cinzel', serif;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .portion-btn:hover {
+        border-color: var(--teal-mid);
+        color: var(--teal-mid);
+      }
+      .portion-btn.active {
+        background: var(--teal-dim);
+        border-color: var(--teal-dim);
+        color: var(--bg-base);
+        font-weight: 700;
+      }
+
+      /* ── Two-column layout ─────────────────────────────────── */
+      .recipe-body {
+        display: grid;
+        grid-template-columns: 1fr 1.8fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      @media (max-width: 680px) {
+        .recipe-body { grid-template-columns: 1fr; }
+      }
+
+      /* ── Section blocks ────────────────────────────────────── */
+      .recipe-section { margin-bottom: 2rem; }
+
+      .section-heading {
+        font-family: 'Cinzel', serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--teal-dim);
+        margin-bottom: 0.8rem;
+      }
+
+      /* ── Ingredients ───────────────────────────────────────── */
+      .ingredients-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .ing-item {
+        display: flex;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        align-items: baseline;
+        padding-bottom: 0.45rem;
+        border-bottom: 1px solid rgba(0,229,212,0.06);
+      }
+      .ing-item:last-child { border-bottom: none; }
+
+      .ing-qty {
+        font-family: 'Cinzel', serif;
+        font-weight: 600;
+        color: var(--teal-mid);
+        min-width: 3.5rem;
+        flex-shrink: 0;
+        font-size: 0.88rem;
+      }
+
+      .ing-name { color: var(--text-primary); }
+      .ing-raw  { color: var(--text-secondary); font-style: italic; }
+      .ing-note { font-size: 0.78rem; color: var(--text-muted); margin: 0.25rem 0; }
+
+      /* ── Steps ─────────────────────────────────────────────── */
+      .steps-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        counter-reset: steps;
+      }
+
+      .step-item {
+        counter-increment: steps;
+        display: grid;
+        grid-template-columns: 2rem 1fr;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
+
+      .step-item::before {
+        content: counter(steps);
+        font-family: 'Cinzel', serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--teal-dim);
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--teal-border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+      }
+
+      /* ── Macros ────────────────────────────────────────────── */
+      .macros-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+
+      .macro-cell {
+        background: var(--bg-surface);
+        border: 1px solid var(--teal-border);
+        border-radius: var(--radius);
+        padding: 0.75rem 1rem;
+        text-align: center;
+      }
+
+      .macro-value {
+        font-family: 'Cinzel', serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--teal-bright);
+        display: block;
+      }
+
+      .macro-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-top: 0.2rem;
+        display: block;
+      }
+
+      .macro-note {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-top: 0.75rem;
+        letter-spacing: 0.03em;
+      }
+
+      /* ── Notes ─────────────────────────────────────────────── */
+      .notes-block {
+        background: var(--bg-surface);
+        border-left: 3px solid var(--teal-dim);
+        border-radius: 0 var(--radius) var(--radius) 0;
+        padding: 1rem 1.25rem;
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* ── Danger zone ───────────────────────────────────────── */
+      .danger-zone {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(224,92,92,0.15);
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .btn-danger {
+        background: transparent;
+        border: 1px solid rgba(224,92,92,0.35);
+        color: #e05c5c;
+        font-family: 'Raleway', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.55rem 1.2rem;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-danger:hover {
+        background: rgba(224,92,92,0.1);
+        border-color: #e05c5c;
+      }
+
+      /* ── Error page ────────────────────────────────────────── */
+      .error-state {
+        text-align: center;
+        padding: 5rem 1rem;
+        color: var(--text-muted);
+      }
+      .error-state h2 { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="../index.html" class="logo-link">
+        <img src="../assets/logo.png" alt="Catacrypt" class="logo-img" />
+        <span class="brand">Catacrypt</span>
+      </a>
+      <nav>
+        <a href="../books/index.html">Library</a>
+        <a href="index.html" class="active">Recipes</a>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <a href="index.html" class="back-link">&larr; All Recipes</a>
+      <div id="recipeRoot"></div>
+    </main>
+
+    <footer class="site-footer">
+      &copy; <span id="yr"></span> Catacrypt &mdash; All rights reserved.
+    </footer>
+
+    <script src="../assets/recipes.js"></script>
+    <script>
+      document.getElementById('yr').textContent = new Date().getFullYear();
+
+      const PORTION_OPTIONS = [1, 2, 4, 8];
+      const root = document.getElementById('recipeRoot');
+
+      const params = new URLSearchParams(location.search);
+      const id     = params.get('id');
+      const stored = id ? getRecipeById(id) : null;
+
+      if (!stored) {
+        root.innerHTML = `
+          <div class="error-state">
+            <h2>Recipe not found</h2>
+            <p>It may have been deleted or the link is incorrect.</p>
+            <a href="index.html" class="btn btn-ghost" style="margin-top:1.5rem">← Back to Recipes</a>
+          </div>`;
+      } else {
+        const { meta, sections } = parseRecipe(stored.raw);
+        const baseServings = parseInt(meta.servings, 10) || 2;
+        let selectedPortions = baseServings;
+
+        document.title = `${stored.name} — Catacrypt`;
+
+        function factor() { return selectedPortions / baseServings; }
+
+        function renderMacros() {
+          const kcal    = parseFloat(meta.kcal);
+          const protein = parseFloat(meta.protein);
+          const carbs   = parseFloat(meta.carbs);
+          const fat     = parseFloat(meta.fat);
+          if (isNaN(kcal) && isNaN(protein) && isNaN(carbs) && isNaN(fat)) return '';
+
+          const f = factor();
+          const cell = (val, label, unit = '') => isNaN(val) ? '' : `
+            <div class="macro-cell">
+              <span class="macro-value">${Math.round(val * f * 10) / 10}${unit}</span>
+              <span class="macro-label">${label}</span>
+            </div>`;
+
+          return `
+            <div class="recipe-section">
+              <p class="section-heading">Macros &mdash; ${selectedPortions} serving${selectedPortions > 1 ? 's' : ''}</p>
+              <div class="macros-grid">
+                ${cell(kcal,    'kcal', ' kcal')}
+                ${cell(protein, 'protein', 'g')}
+                ${cell(carbs,   'carbs', 'g')}
+                ${cell(fat,     'fat', 'g')}
+              </div>
+              <p class="macro-note">Based on ${selectedPortions} × per-serving values from recipe.</p>
+            </div>`;
+        }
+
+        function renderIngredientSection() {
+          const src = sections['ingredients'] || '';
+          if (!src) return '';
+          return `
+            <div class="recipe-section">
+              <p class="section-heading">Ingredients &mdash; ${selectedPortions} serving${selectedPortions > 1 ? 's' : ''}</p>
+              <ul class="ingredients-list">
+                ${renderIngredients(src, factor())}
+              </ul>
+            </div>`;
+        }
+
+        function renderPage() {
+          const stepsKey = Object.keys(sections).find(k => k.includes('preparation') || k.includes('steps') || k.includes('method'));
+          const notesKey = Object.keys(sections).find(k => k.includes('notes') || k.includes('note'));
+          const extraSections = Object.keys(sections)
+            .filter(k => !k.includes('ingredient') && k !== stepsKey && k !== notesKey)
+            .map(k => `
+              <div class="recipe-section">
+                <p class="section-heading">${k}</p>
+                <div class="notes-block">${sections[k].replace(/\n/g, '<br>')}</div>
+              </div>`).join('');
+
+          root.innerHTML = `
+            <div class="recipe-header">
+              <h1>${stored.name}</h1>
+              <div class="recipe-meta-row">
+                ${meta.prep_time ? `<div class="meta-item"><span class="meta-label">Prep</span>${meta.prep_time}</div>` : ''}
+                ${meta.cook_time ? `<div class="meta-item"><span class="meta-label">Cook</span>${meta.cook_time}</div>` : ''}
+                <div class="meta-item"><span class="meta-label">Base</span>${baseServings} serving${baseServings > 1 ? 's' : ''}</div>
+              </div>
+            </div>
+
+            <div class="portion-section">
+              <span class="portion-label">Portions</span>
+              <div class="portion-buttons" id="portionBtns">
+                ${PORTION_OPTIONS.map(n => `
+                  <button class="portion-btn ${n === selectedPortions ? 'active' : ''}" data-n="${n}">${n}</button>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="recipe-body">
+              <div id="ingredientCol">
+                ${renderIngredientSection()}
+                ${renderMacros()}
+              </div>
+              <div id="stepsCol">
+                ${stepsKey ? `
+                  <div class="recipe-section">
+                    <p class="section-heading">Preparation</p>
+                    <ol class="steps-list">
+                      ${renderSteps(sections[stepsKey])}
+                    </ol>
+                  </div>` : ''}
+                ${notesKey ? `
+                  <div class="recipe-section">
+                    <p class="section-heading">Notes</p>
+                    <div class="notes-block">${sections[notesKey].replace(/\n/g, '<br>')}</div>
+                  </div>` : ''}
+                ${extraSections}
+              </div>
+            </div>
+
+            <div class="danger-zone">
+              <button class="btn-danger" id="deleteBtn">Delete Recipe</button>
+            </div>`;
+
+          // Portion buttons
+          document.getElementById('portionBtns').addEventListener('click', e => {
+            const btn = e.target.closest('.portion-btn');
+            if (!btn) return;
+            selectedPortions = parseInt(btn.dataset.n, 10);
+            // Re-render only reactive parts
+            document.getElementById('ingredientCol').innerHTML =
+              renderIngredientSection() + renderMacros();
+            document.querySelectorAll('.portion-btn').forEach(b => {
+              b.classList.toggle('active', parseInt(b.dataset.n, 10) === selectedPortions);
+            });
+          });
+
+          // Delete
+          document.getElementById('deleteBtn').addEventListener('click', () => {
+            if (!confirm(`Delete "${stored.name}"?`)) return;
+            deleteRecipe(stored.id);
+            location.href = 'index.html';
+          });
+        }
+
+        renderPage();
+      }
+    </script>
+  </body>
+</html>
