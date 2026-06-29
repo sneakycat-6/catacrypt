@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipes — Catacrypt</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <style>
+      .page-hero {
+        padding: 3.5rem 0 2.5rem;
+        border-bottom: 1px solid var(--teal-border);
+        margin-bottom: 3rem;
+      }
+
+      .page-hero .eyebrow {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--teal-dim);
+        margin-bottom: 0.5rem;
+      }
+
+      .page-hero h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        color: var(--teal-bright);
+        text-shadow: 0 0 30px rgba(0,229,212,0.2);
+        margin-bottom: 0.75rem;
+      }
+
+      .page-hero p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        max-width: 520px;
+      }
+
+      .coming-soon {
+        text-align: center;
+        padding: 4rem 1rem;
+        color: var(--text-muted);
+      }
+
+      .coming-soon .icon { font-size: 3rem; margin-bottom: 1rem; }
+      .coming-soon h2 {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+      }
+      .coming-soon p { font-size: 0.88rem; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="../index.html" class="logo-link">
+        <img src="../assets/logo.png" alt="Catacrypt logo" class="logo-img" />
+        <span class="brand">Catacrypt</span>
+      </a>
+      <nav>
+        <a href="../books/index.html">Library</a>
+        <a href="index.html" class="active">Recipes</a>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <div class="page-hero">
+        <p class="eyebrow">Catacrypt &rsaquo; Recipes</p>
+        <h1>🍽️ Recipes</h1>
+        <p>Your curated cookbook — every recipe you've collected, always within reach.</p>
+      </div>
+
+      <div class="coming-soon">
+        <div class="icon">🕯️</div>
+        <h2>Your cookbook awaits</h2>
+        <p>Recipes will appear here once added. This section is coming soon.</p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      &copy; <span id="yr"></span> Catacrypt &mdash; All rights reserved.
+    </footer>
+    <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Library — Catacrypt</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <style>
+      .page-hero {
+        padding: 3.5rem 0 2.5rem;
+        border-bottom: 1px solid var(--teal-border);
+        margin-bottom: 3rem;
+      }
+
+      .page-hero .eyebrow {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--teal-dim);
+        margin-bottom: 0.5rem;
+      }
+
+      .page-hero h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        color: var(--teal-bright);
+        text-shadow: 0 0 30px rgba(0,229,212,0.2);
+        margin-bottom: 0.75rem;
+      }
+
+      .page-hero p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        max-width: 520px;
+      }
+
+      .placeholder-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.25rem;
+      }
+
+      .book-placeholder {
+        background: var(--bg-card);
+        border: 1px dashed var(--teal-border);
+        border-radius: var(--radius);
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+      }
+
+      .book-placeholder .spine {
+        width: 48px;
+        height: 70px;
+        border-radius: 4px;
+        background: linear-gradient(135deg, var(--teal-dim) 0%, var(--bg-surface) 100%);
+        opacity: 0.4;
+      }
+
+      .coming-soon {
+        text-align: center;
+        padding: 4rem 1rem;
+        color: var(--text-muted);
+      }
+
+      .coming-soon .icon { font-size: 3rem; margin-bottom: 1rem; }
+      .coming-soon h2 {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+      }
+      .coming-soon p { font-size: 0.88rem; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="../index.html" class="logo-link">
+        <img src="../assets/logo.png" alt="Catacrypt logo" class="logo-img" />
+        <span class="brand">Catacrypt</span>
+      </a>
+      <nav>
+        <a href="index.html" class="active">Library</a>
+        <a href="../recipes/index.html">Recipes</a>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <div class="page-hero">
+        <p class="eyebrow">Catacrypt &rsaquo; Library</p>
+        <h1>📚 Book Library</h1>
+        <p>Your personal collection of physical and Kindle books — all in one place.</p>
+      </div>
+
+      <div class="coming-soon">
+        <div class="icon">🕯️</div>
+        <h2>Your library awaits</h2>
+        <p>Books will appear here once added. This section is coming soon.</p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      &copy; <span id="yr"></span> Catacrypt &mdash; All rights reserved.
+    </footer>
+    <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  </body>
+</html>

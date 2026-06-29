@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+
+/* ── Design tokens ─────────────────────────────────────────── */
+:root {
+  --bg-base:       #07090c;
+  --bg-surface:    #0d1117;
+  --bg-card:       #111820;
+  --bg-card-hover: #162028;
+
+  --teal-bright:   #00e5d4;
+  --teal-mid:      #00b4aa;
+  --teal-dim:      #007a72;
+  --teal-glow:     rgba(0, 229, 212, 0.12);
+  --teal-border:   rgba(0, 229, 212, 0.22);
+
+  --text-primary:  #dff0ee;
+  --text-secondary:#7ab5b0;
+  --text-muted:    #3d6662;
+
+  --radius:        12px;
+  --radius-lg:     20px;
+  --transition:    0.25s ease;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.65;
+  /* subtle noise texture via svg */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,170,0.07) 0%, transparent 70%);
+}
+
+/* ── Typography ────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+a {
+  color: var(--teal-mid);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover { color: var(--teal-bright); }
+
+/* ── Shared site header ────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid var(--teal-border);
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.site-header .logo-img {
+  height: 36px;
+  width: auto;
+}
+
+.site-header .brand {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--teal-bright);
+  text-shadow: 0 0 18px rgba(0,229,212,0.4);
+}
+
+.site-header nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.site-header nav a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--transition);
+}
+.site-header nav a:hover,
+.site-header nav a.active {
+  color: var(--teal-bright);
+}
+
+/* ── Page wrapper ──────────────────────────────────────────── */
+.page-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+/* ── Teal divider ──────────────────────────────────────────── */
+.teal-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal-bright), transparent);
+  margin: 1rem 0 1.5rem;
+}
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--teal-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  transition: background var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--teal-mid);
+  box-shadow: 0 0 32px rgba(0,229,212,0.08);
+}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--teal-dim);
+  color: var(--bg-base);
+}
+.btn-primary:hover {
+  background: var(--teal-mid);
+  box-shadow: 0 0 20px rgba(0,229,212,0.25);
+  color: var(--bg-base);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--teal-mid);
+  border: 1px solid var(--teal-border);
+}
+.btn-ghost:hover {
+  border-color: var(--teal-mid);
+  background: var(--teal-glow);
+  color: var(--teal-bright);
+}
+
+/* ── Site footer ───────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--teal-border);
+  padding: 1.5rem 2.5rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
